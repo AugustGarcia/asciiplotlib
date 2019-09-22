@@ -30,7 +30,12 @@ def barh(
         fmt.append(cfmt)
 
     if show_counts:
-        cfmt = "{{:{}d}}".format(max([len(str(c)) for c in counts]))
+        pad = max([len(str(int(c))) for c in counts])
+
+        # If there are any floats in counts, format all values to two places after the decimal
+        if ( max([type(c)==float for c in counts]) ): cfmt = ("{{:%s.2f}}" % str(pad+3)).format(pad+3)
+        else:                                         cfmt = "{{:{}d}}".format(pad)
+
         fmt.append("[" + cfmt + "]")
 
     fmt.append("{}")
